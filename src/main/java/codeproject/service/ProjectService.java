@@ -26,4 +26,14 @@ public class ProjectService {
     public Project addProject(Project project) {
         return projectRepository.save(project);
     }
+    
+    public List<Project> getByName(String eventName) {
+        return projectRepository.findByEventName(eventName);
+    }
+
+    public void deletePorject(Long id) {
+        Project project = projectRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Project is not exist with id: " + id));
+        projectRepository.delete(project);
+    }
 }
