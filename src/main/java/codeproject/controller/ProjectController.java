@@ -75,4 +75,23 @@ public class ProjectController {
     	messagingTemplate.convertAndSend("/topic/" + project.getEventName(), chatMessage);
         return new ResponseEntity<>(projectService.addProject(project), HttpStatus.OK);
     }
+    
+    @GetMapping("/project")
+    public ResponseEntity<List<Project>> getByName(@RequestParam String eventName) {
+        return new ResponseEntity<>(projectService.getByName(eventName), HttpStatus.OK);
+    }
+
+    @PutMapping("/projects/{id}")
+    public ResponseEntity<Project> updateProject(@RequestBody Project projectUpdate, @PathVariable Long id) {
+        Project project = projectService.getProject(id);
+        projectService.addProject(project);
+
+        project.setEventName(projectUpdate.getEventName());
+        return new ResponseEntity<>(projectService.addProject(project), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/projects/{id}")
+    public void deleteProject(@PathVariable Long id) {
+        projectService.deletePorject(id);
+    }
 }
